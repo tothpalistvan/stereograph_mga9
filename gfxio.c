@@ -1036,10 +1036,10 @@ int GFX_Write_PNG (FILE *ofile, struct GFX_DATA *gfx)
 	png_infop info_ptr;
 
 	int z;
-#if __BYTE_ORDER == __BIG_ENDIAN
+//#if __BYTE_ORDER == __BIG_ENDIAN
         int p, h, u;
         unsigned char *ptr;
-#endif
+//#endif
 
 	/* initializing */
 	png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, user_error_ptr, NULL, NULL);
@@ -1082,7 +1082,7 @@ int GFX_Write_PNG (FILE *ofile, struct GFX_DATA *gfx)
 	#endif
 	*/
 
-#if __BYTE_ORDER == __BIG_ENDIAN
+//#if __BYTE_ORDER == __BIG_ENDIAN
         ptr = (unsigned char *)malloc(4*gfx->Width);
 	for(h = 0; h < gfx->Height; h++) {
 	  u = -1;
@@ -1096,11 +1096,11 @@ int GFX_Write_PNG (FILE *ofile, struct GFX_DATA *gfx)
           png_write_row(png_ptr, (void *) ptr);
 	}
         free(ptr);
-#else
+/*#else
 	for(z = 0; z < gfx->Height; z++)
                 png_write_row(png_ptr, (void *) (gfx->Data + z * gfx->Width));
 #endif   
-
+*/
 	png_write_end(png_ptr, NULL);
 
 	png_destroy_write_struct(&png_ptr, &info_ptr);
@@ -1318,16 +1318,16 @@ int GFX_Write_TARGA (FILE *ofile, struct GFX_DATA *gfx)
 	a = 0;
 	for(y = gfx->Height - 1; (y >= 0) && (a != EOF); y--)
 		for(x = 0; (x < gfx->Width) && (a != EOF); x++)	{
-#if __BYTE_ORDER == __BIG_ENDIAN		   
+//#if __BYTE_ORDER == __BIG_ENDIAN		   
 			putc((gfx->Data[y * gfx->Width + x] >>16) & 255, ofile);
 			putc((gfx->Data[y * gfx->Width + x] >> 8) & 255, ofile);
 			a = putc(gfx->Data[y * gfx->Width + x] & 255, ofile);
-#else		   
+/*#else		   
 			putc(gfx->Data[y * gfx->Width + x] & 255, ofile);
 			putc((gfx->Data[y * gfx->Width + x] >> 8) & 255, ofile);
 			a = putc((gfx->Data[y * gfx->Width + x] >> 16) & 255, ofile);
 #endif		   
-		}
+*/		}
 	if(a != EOF) {
 		return 0;
 	} else {
