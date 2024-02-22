@@ -43,8 +43,14 @@ typedef unsigned long Pixel;
 
 #include "renderer.h"
 #include "gfxio.h"
-#include "globals.h"
+#include <string.h>
+#ifndef _GLOBALS_H_
+	#include "globals.h"
 
+	int stereograph_verbose;
+	int stereograph_error;
+	char * stereograph_include_dir;
+#endif
 #define frand1() ((float)rand() / (float)RAND_MAX)
 #define PI 3.14159265358979
 #define DIRECT 0
@@ -872,7 +878,8 @@ int GFX_Read_PNG (FILE *ifile, unsigned char *check_header, struct GFX_DATA *gfx
 		}
 		
 		/* libpng error handling */
-		if (setjmp(png_ptr->jmpbuf)) {
+//		if (setjmp(png_ptr->jmpbuf)) {
+		if (setjmp(png_jmpbuf(png_ptr))) {
 			png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
         		if(stereograph_verbose) printf("FAILED;\n"); else fprintf(stderr, "reading gfx data...FAILED\n");
 	        	fprintf(stderr, "libpng reported an error!\n");
@@ -1050,7 +1057,8 @@ int GFX_Write_PNG (FILE *ofile, struct GFX_DATA *gfx)
 	}
 		
 	/* libpng error handling */
-	if (setjmp(png_ptr->jmpbuf)) {
+//	if (setjmp(png_ptr->jmpbuf)) {
+	if (setjmp(png_jmpbuf(png_ptr))) {
 		png_destroy_write_struct(&png_ptr, &info_ptr);
        		if(stereograph_verbose) printf("FAILED;\n"); else fprintf(stderr, "writing gfx data...FAILED\n");
         	fprintf(stderr, "libpng reported an error!\n");

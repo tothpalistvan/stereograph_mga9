@@ -1,16 +1,16 @@
 # no need to change anything below here
 #----------------------------------------------------------
 
-SRC0 = stereograph.c renderer.c gfxio.c
-OBJ0 = stereograph.o renderer.o gfxio.o
+SRC0 = gfxio.c stereograph.c renderer.c 
+OBJ0 = gfxio.o stereograph.o renderer.o 
 
 all: $(OBJ0) stereograph
 make: all
 
 stereograph: $(OBJ0)
 stereograph.o: stereograph.c stereograph.h renderer.h gfxio.h globals.h
-renderer.o: renderer.c renderer.h globals.h
-gfxio.o: gfxio.c gfxio.h renderer.h globals.h
+renderer.o: renderer.c renderer.h 
+gfxio.o: gfxio.c gfxio.h renderer.h
 
 
 install:

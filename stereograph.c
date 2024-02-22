@@ -27,9 +27,11 @@
 #include "renderer.h"
 #include "gfxio.h"
 #include "stereograph.h"
-#include "globals.h"
+#ifndef _GLOBALS_H_
+	#include "globals.h"
+#endif
 #ifndef STEREOGRAPH_ONLY
-#include "../config.h"
+//#include "../config.h"
 #endif
 
 #ifndef PACKAGE_DATA_DIR
